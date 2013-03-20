@@ -1,8 +1,13 @@
 class SSNetClient {
 	
+	private NetProxy net; 
+	SSNetClient(int port){
+		net = new NetProxy("127.0.0.1", port, true); 
+	}
+	
 	public void start(ServerFace srv) {
-	  NetProxy net = new NetProxy("152.23.22.93", 9876, true);// true means server side
-	  String method, param;
+	  //NetProxy net = new NetProxy("127.0.0.1", 9876, true);// true means server side
+	  String method;
 	  while (true) {
 	    method = net.getMessage();
 		 if (method.equals("handle")) {

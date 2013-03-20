@@ -4,7 +4,14 @@ class CNetServer implements ServerFace {
 	to live over the net as a separate process
 */															
 	//NetProxy net = new NetProxy("152.23.22.93", 9876, false); // false means client side	
-	NetProxy net = new NetProxy("127.0.0.1", 9876, false); // false means client side
+	NetProxy net;  //= new NetProxy("127.0.0.1", 9876, false); // false means client side
+	
+	CNetServer(int id){
+		if (id == 1)
+			net = new NetProxy("127.0.0.1", 9876, false); // port 9876 is for prime
+		else if (id == 2)
+			net = new NetProxy("127.0.0.1", 9877, false); // port 9877 is for odd 
+	}
 																
    public String handle (int input, int id) {
 	   net.sendMessage("handle");

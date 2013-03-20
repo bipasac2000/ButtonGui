@@ -20,7 +20,6 @@ class ServerProxy implements ServerFace {
 	the server or just manage the call itself
 */
 	
-	ServerProxy(){}
 	class Field{
 		long previousTime; 
 		String result; 
@@ -30,9 +29,14 @@ class ServerProxy implements ServerFace {
 		}
 	}
 	Hashtable <Integer, Field> oddResults = new Hashtable <Integer, Field>(); 
-  ServerFace CNetSrv = new CNetServer();   // the target... this one remote
-  ServerFace SimpleSrv = new Server();    // the target... this one local
-  
+  ServerFace CNetSrv; // = new CNetServer();   // the target... this one remote
+  ServerFace SimpleSrv; // = new Server();    // the target... this one local
+  ServerProxy(int id){
+  	if (id == 3)
+  		SimpleSrv = new Server(); 
+  	else 
+  		CNetSrv = new CNetServer(id); 
+  }
   
   public String handle (int input, int id) {
   	if (id == 1){
