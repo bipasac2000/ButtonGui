@@ -1,7 +1,6 @@
-/* unadorned basic function computing engine
-*/
-public class Server implements ServerFace {  // it also implements the same interface
-                                             // as the proxy the client talks to																										
+
+public class Server implements ServerFace {  
+                                      																									
    public String handle (int input, int id) {
   	 if(id == 1)
   		 return "Square: " + input * input;

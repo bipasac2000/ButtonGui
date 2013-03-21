@@ -8,9 +8,6 @@ import java.util.Hashtable;
 // 4. The wrapper delegates to the target
 // 5. To support plug-compatibility of wrapper and target, create an interface
 
-//import java.io.*;   
-//import java.net.*;
-
 // the server will have a proxy to talk to sockets
 // it also implements the same interface as the proxy the client talks to
 
@@ -29,8 +26,8 @@ class ServerProxy implements ServerFace {
 		}
 	}
 	Hashtable <Integer, Field> oddResults = new Hashtable <Integer, Field>(); 
-  ServerFace CNetSrv; // = new CNetServer();   // the target... this one remote
-  ServerFace SimpleSrv; // = new Server();    // the target... this one local
+  ServerFace CNetSrv; // the target... this one remote
+  ServerFace SimpleSrv; // the target... this one local
   ServerProxy(int id){
   	if (id == 3)
   		SimpleSrv = new Server(); 
@@ -40,8 +37,7 @@ class ServerProxy implements ServerFace {
   
   public String handle (int input, int id) {
   	if (id == 1){
-  		return CNetSrv.handle(input, id);
-  		//return SimpleSrv.handle(input, id); 
+  		return CNetSrv.handle(input, id)+" : result was computed remotely"; 
   	}
     else if (id ==2){
     	Date date = new Date(); 
@@ -51,27 +47,25 @@ class ServerProxy implements ServerFace {
     		if (time-pTime < 30000){
     			System.out.println(time-pTime); 
     			oddResults.get(input).previousTime = time;
-    			return oddResults.get(input).result;
+    			return oddResults.get(input).result+" : result was obtained from local cache";
     		}
     		else {
     			oddResults.get(input).result = CNetSrv.handle(input, id);
-    			//oddResults.get(input).result = SimpleSrv.handle(input, id);
     			oddResults.get(input).previousTime = time; 
-    			return (oddResults.get(input).result); 
+    			return (oddResults.get(input).result)+" : result was computed remotely"; 
     		}
     	}
     	else {
     		Field newF = new Field(time, CNetSrv.handle(input, id));
-    		//Field newF = new Field(time, SimpleSrv.handle(input, id));
     		oddResults.put(input, newF);
-    		return (newF.result); 
+    		return (newF.result)+" : result was computed remotely"; 
     	}
     }
     else if (id == 3)
     	if (input%6 == 0)
-    		return "Divisible by 6: -1"; 
+    		return "Divisible by 6: -1 : proxy rejected the request"; 
     	else 
-    		return SimpleSrv.handle(input, id);    // wrapper delegates to the target	
+    		return SimpleSrv.handle(input, id) + " : result was computed locally";    // wrapper delegates to the target	
   	return "id not found"; 
     
   }	

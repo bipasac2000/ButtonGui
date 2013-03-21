@@ -8,7 +8,6 @@ public abstract class Handler {
 	
 	public void popUp (String msg){
   	JFrame frame = new JFrame( "Result" );
-    //JButton button = new JButton("OK"); 
     frame.add( new JLabel(msg));
     frame.pack();
     frame.setVisible( true );
